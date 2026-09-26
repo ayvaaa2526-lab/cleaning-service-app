@@ -1,75 +1,58 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#111827" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111827">
   <title>Clearly Cleaning</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <div><strong>clearly</strong><span>УБОРКА. ПО ПОЛОЧКАМ.</span></div>
-  <div class="controls">
+<header class="top">
+  <div class="brand"><b>clearly</b><small data-t="tag">УБОРКА. ПО ПОЛОЧКАМ.</small></div>
+  <div class="switches">
     <select id="lang"><option value="ru">Русский</option><option value="en">English</option><option value="ka">ქართული</option></select>
     <select id="currency"><option value="GEL">₾ GEL</option><option value="USD">$ USD</option></select>
   </div>
 </header>
 <main>
-  <section class="hero">
-    <p class="eyebrow">Clearly Cleaning</p>
-    <h1 data-t="title">Калькулятор уборки</h1>
-    <p data-t="subtitle">От площади до готового предложения — за пару минут.</p>
-  </section>
+  <section class="hero"><span class="kicker">CLEARLY CLEANING</span><h1 data-t="title">Калькулятор уборки</h1><p data-t="subtitle">От площади до готового предложения — за пару минут.</p></section>
+  <nav class="tabs">
+    <button class="tab active" data-page="calc" data-t="calc">Расчёт</button>
+    <button class="tab" data-page="history" data-t="history">История</button>
+    <button class="tab" data-page="rates" data-t="rates">Тарифы</button>
+  </nav>
 
-  <section class="card">
-    <h2>01 <span data-t="cleaning">Какая уборка нужна?</span></h2>
-    <div id="types" class="grid"></div>
-    <label><span data-t="area">Площадь помещения</span>
-      <input id="area" type="range" min="10" max="300" value="60" />
-      <b id="areaValue">60 м²</b>
-    </label>
-  </section>
+  <div id="calc" class="page active">
+    <section class="card">
+      <div class="step">01</div><h2 data-t="cleaning">Какая уборка нужна?</h2>
+      <div id="types" class="options"></div>
+      <label class="rangeLabel"><span data-t="area">Площадь помещения</span><b id="areaValue"></b></label>
+      <input id="area" type="range" min="10" max="300" value="60">
+    </section>
+    <section class="card"><div class="step">02</div><h2 data-t="extras">Добавим детали</h2><div id="extras" class="options"></div></section>
+    <section class="card">
+      <div class="step">03</div><h2 data-t="client">Для кого считаем?</h2>
+      <div class="form"><input id="name" data-ph="name"><input id="address" data-ph="address"><textarea id="note" data-ph="note"></textarea></div>
+    </section>
+    <section class="card">
+      <div class="step">04</div><h2 data-t="terms">Условия предложения</h2>
+      <div class="form two">
+        <label><span data-t="discount">Скидка, %</span><input id="discount" type="number" min="0" max="100" value="0"></label>
+        <label><span data-t="valid">Срок действия, дней</span><input id="valid" type="number" min="0" value="14"></label>
+      </div>
+    </section>
+    <section class="quote card">
+      <span class="kicker" data-t="yourcalc">ВАШ РАСЧЁТ</span><h2 id="total"></h2><div id="breakdown"></div>
+      <div class="actions"><button id="save" data-t="save">Сохранить расчёт</button><button id="print" class="ghost" data-t="proposal">Предложение / PDF</button></div>
+      <small data-t="disclaimer">Предварительная стоимость. Финальные условия согласуются с клиентом.</small>
+    </section>
+  </div>
 
-  <section class="card">
-    <h2>02 <span data-t="extras">Добавим детали</span></h2>
-    <div id="extras" class="grid"></div>
-  </section>
-
-  <section class="card">
-    <h2>03 <span data-t="client">Для кого считаем?</span></h2>
-    <div class="formgrid">
-      <input id="name" data-ph="name" placeholder="Имя клиента">
-      <input id="address" data-ph="address" placeholder="Адрес уборки">
-      <textarea id="note" data-ph="note" placeholder="Примечание для клиента"></textarea>
-    </div>
-  </section>
-
-  <section class="card">
-    <h2>04 <span data-t="terms">Условия предложения</span></h2>
-    <div class="formgrid">
-      <label><span data-t="discount">Скидка, %</span><input id="discount" type="number" min="0" max="100" value="0"></label>
-      <label><span data-t="valid">Срок действия, дней</span><input id="valid" type="number" min="0" value="14"></label>
-    </div>
-  </section>
-
-  <aside class="total card">
-    <p data-t="yourcalc">ВАШ РАСЧЁТ</p>
-    <h2 id="total">120 ₾</h2>
-    <div id="breakdown"></div>
-    <div class="actions">
-      <button id="save" data-t="save">Сохранить расчёт</button>
-      <button id="print" class="secondary" data-t="proposal">Предложение / PDF</button>
-    </div>
-    <small data-t="disclaimer">Предварительная стоимость. Финальные условия согласуются с клиентом.</small>
-  </aside>
-
-  <section class="card">
-    <h2 data-t="history">История</h2>
-    <div id="historyList"></div>
-  </section>
+  <div id="history" class="page"><section class="card"><h2 data-t="history">История</h2><p class="muted" data-t="historyHint">Сохранённые расчёты хранятся на этом устройстве.</p><div id="historyList"></div><button id="clearHistory" class="danger" data-t="clear">Очистить историю</button></section></div>
+  <div id="rates" class="page"><section class="card"><h2 data-t="rates">Тарифы</h2><p class="muted" data-t="ratesHint">Настройте цены своей компании. Они сохранятся на этом устройстве.</p><div id="rateEditor"></div><button id="saveRates" data-t="saveRates">Сохранить тарифы</button><button id="resetRates" class="ghost" data-t="resetRates">Вернуть стандартные</button></section></div>
 </main>
-<footer>clearly. <span data-t="footer">Меньше расчётов. Больше ясности.</span></footer>
+<footer><b>clearly.</b> <span data-t="footer">Меньше расчётов. Больше ясности.</span></footer>
 <script src="app.js"></script>
 </body></html>
