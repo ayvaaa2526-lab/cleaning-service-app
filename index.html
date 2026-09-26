@@ -1,58 +1,70 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#111827">
-  <title>Clearly Cleaning</title>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111111">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
+  <title>Clearly Cleaning v3</title>
 </head>
 <body>
-<header class="top">
-  <div class="brand"><b>clearly</b><small data-t="tag">УБОРКА. ПО ПОЛОЧКАМ.</small></div>
+<header>
+  <div><div class="logo">clearly</div><div class="tag" data-i="tag">УБОРКА. ПО ПОЛОЧКАМ.</div></div>
   <div class="switches">
     <select id="lang"><option value="ru">Русский</option><option value="en">English</option><option value="ka">ქართული</option></select>
     <select id="currency"><option value="GEL">₾ GEL</option><option value="USD">$ USD</option></select>
   </div>
 </header>
 <main>
-  <section class="hero"><span class="kicker">CLEARLY CLEANING</span><h1 data-t="title">Калькулятор уборки</h1><p data-t="subtitle">От площади до готового предложения — за пару минут.</p></section>
-  <nav class="tabs">
-    <button class="tab active" data-page="calc" data-t="calc">Расчёт</button>
-    <button class="tab" data-page="history" data-t="history">История</button>
-    <button class="tab" data-page="rates" data-t="rates">Тарифы</button>
+  <p class="eyebrow">CLEARLY CLEANING</p>
+  <h1 data-i="title">Калькулятор уборки</h1>
+  <p class="lead" data-i="lead">От площади до готового предложения — за пару минут.</p>
+
+  <nav>
+    <button class="tab active" data-tab="calc" data-i="calc">Расчёт</button>
+    <button class="tab" data-tab="history" data-i="history">История</button>
+    <button class="tab" data-tab="rates" data-i="rates">Тарифы</button>
   </nav>
 
-  <div id="calc" class="page active">
-    <section class="card">
-      <div class="step">01</div><h2 data-t="cleaning">Какая уборка нужна?</h2>
-      <div id="types" class="options"></div>
-      <label class="rangeLabel"><span data-t="area">Площадь помещения</span><b id="areaValue"></b></label>
-      <input id="area" type="range" min="10" max="300" value="60">
-    </section>
-    <section class="card"><div class="step">02</div><h2 data-t="extras">Добавим детали</h2><div id="extras" class="options"></div></section>
-    <section class="card">
-      <div class="step">03</div><h2 data-t="client">Для кого считаем?</h2>
-      <div class="form"><input id="name" data-ph="name"><input id="address" data-ph="address"><textarea id="note" data-ph="note"></textarea></div>
-    </section>
-    <section class="card">
-      <div class="step">04</div><h2 data-t="terms">Условия предложения</h2>
-      <div class="form two">
-        <label><span data-t="discount">Скидка, %</span><input id="discount" type="number" min="0" max="100" value="0"></label>
-        <label><span data-t="valid">Срок действия, дней</span><input id="valid" type="number" min="0" value="14"></label>
-      </div>
-    </section>
-    <section class="quote card">
-      <span class="kicker" data-t="yourcalc">ВАШ РАСЧЁТ</span><h2 id="total"></h2><div id="breakdown"></div>
-      <div class="actions"><button id="save" data-t="save">Сохранить расчёт</button><button id="print" class="ghost" data-t="proposal">Предложение / PDF</button></div>
-      <small data-t="disclaimer">Предварительная стоимость. Финальные условия согласуются с клиентом.</small>
-    </section>
-  </div>
+  <section id="calc" class="panel active">
+    <div class="card">
+      <span class="num">01</span><h2 data-i="cleanType">Какая уборка нужна?</h2>
+      <div id="types" class="choices"></div>
+      <label data-i="area">Площадь помещения</label>
+      <input id="area" type="range" min="20" max="300" step="5" value="60">
+      <strong id="areaOut">60 м²</strong>
+    </div>
 
-  <div id="history" class="page"><section class="card"><h2 data-t="history">История</h2><p class="muted" data-t="historyHint">Сохранённые расчёты хранятся на этом устройстве.</p><div id="historyList"></div><button id="clearHistory" class="danger" data-t="clear">Очистить историю</button></section></div>
-  <div id="rates" class="page"><section class="card"><h2 data-t="rates">Тарифы</h2><p class="muted" data-t="ratesHint">Настройте цены своей компании. Они сохранятся на этом устройстве.</p><div id="rateEditor"></div><button id="saveRates" data-t="saveRates">Сохранить тарифы</button><button id="resetRates" class="ghost" data-t="resetRates">Вернуть стандартные</button></section></div>
+    <div class="card">
+      <span class="num">02</span><h2 data-i="extras">Дополнительные услуги</h2>
+      <div id="extrasList"></div>
+    </div>
+
+    <div class="card total">
+      <span class="muted" data-i="estimate">Предварительная стоимость</span>
+      <div id="price">120 ₾</div>
+      <button id="book" class="primary" data-i="book">Оформить заказ</button>
+    </div>
+
+    <form id="orderForm" class="card hidden">
+      <span class="num">03</span><h2 data-i="details">Детали заказа</h2>
+      <label data-i="name">Имя</label><input id="name" required>
+      <label data-i="phone">Телефон</label><input id="phone" type="tel" required>
+      <label data-i="address">Адрес</label><input id="address" required>
+      <div class="grid">
+        <div><label data-i="date">Дата</label><input id="date" type="date" required></div>
+        <div><label data-i="time">Время</label><input id="time" type="time" required></div>
+      </div>
+      <label data-i="comment">Комментарий</label><textarea id="comment" rows="3"></textarea>
+      <div class="summary" id="summary"></div>
+      <button class="primary" type="submit" data-i="confirm">Подтвердить заявку</button>
+      <p class="note" data-i="localNote">Демо v3: заявка сохраняется только на этом устройстве.</p>
+    </form>
+  </section>
+
+  <section id="history" class="panel"><div class="card"><h2 data-i="historyTitle">Мои заявки</h2><div id="orders"></div></div></section>
+  <section id="rates" class="panel"><div class="card"><h2 data-i="ratesTitle">Тарифы</h2><div id="rateCards"></div></div></section>
 </main>
-<footer><b>clearly.</b> <span data-t="footer">Меньше расчётов. Больше ясности.</span></footer>
+<div id="toast"></div>
 <script src="app.js"></script>
 </body></html>

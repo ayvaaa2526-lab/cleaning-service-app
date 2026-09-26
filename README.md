@@ -1,14 +1,15 @@
-# Clearly Cleaning v2
+# Clearly Cleaning v3
 
-Standalone multilingual cleaning quote app.
+Standalone multilingual cleaning quote + booking demo.
 
 ## Features
 - Russian / English / Georgian
 - GEL / USD
-- Editable company rates
-- Quote history stored locally
-- Print / Save as PDF
-- Responsive mobile interface
-- Web app manifest
+- Cleaning calculator
+- Extra services
+- Booking form with date/time/contact/address
+- Local booking history
+- Responsive mobile UI
+- No backend required for this demo
 
-Note: USD conversion currently uses a fixed demo rate of 2.7 GEL per USD.
+Deploy as static files. Cloudflare deployment is connected to the `main` branch.
