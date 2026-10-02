@@ -1,0 +1,27 @@
+{
+  "name": "clearly-cleaning",
+  "version": "4.1.0",
+  "description": "Clearly booking app on Cloudflare Workers and D1",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "npm run build && wrangler dev",
+    "test": "node --test tests/*.test.js",
+    "check": "node --check app.js && node --check src/worker.js && npm test && npm run build && wrangler deploy --dry-run",
+    "db:local": "wrangler d1 migrations apply DB --local",
+    "db:remote": "wrangler d1 migrations apply DB --remote",
+    "deploy": "npm run build && wrangler deploy",
+    "test:integration": "npm run db:local && node tests/integration.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "better-auth": "1.7.6"
+  },
+  "devDependencies": {
+    "jsdom": "30.1.1",
+    "wrangler": "4.141.0"
+  },
+  "private": true
+}
