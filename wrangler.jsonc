@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "damp-pine-281a",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-09-26",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": { "directory": "./dist", "binding": "ASSETS", "run_worker_first": ["/api/*"] },
+  "vars": {
+    "BETTER_AUTH_URL": "https://damp-pine-281a.ayvaaa2526.workers.dev",
+    "ADMIN_USER_IDS": ""
+  },
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "clearly-cleaning-db",
+    // Confirm this database ID in Cloudflare before a production deployment.
+    "database_id": "3c155048-82df-4bd2-a072-a09dc8986d91",
+    "migrations_dir": "migrations"
+  }]
+}

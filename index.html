@@ -5,14 +5,14 @@
   <meta name="theme-color" content="#111111">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
-  <title>Clearly Cleaning v3</title>
+  <title>Clearly Cleaning</title>
 </head>
 <body>
 <header>
   <div><div class="logo">clearly</div><div class="tag" data-i="tag">УБОРКА. ПО ПОЛОЧКАМ.</div></div>
   <div class="switches">
-    <select id="lang"><option value="ru">Русский</option><option value="en">English</option><option value="ka">ქართული</option></select>
-    <select id="currency"><option value="GEL">₾ GEL</option><option value="USD">$ USD</option></select>
+    <select id="lang" aria-label="Language"><option value="ru">Русский</option><option value="en">English</option><option value="ka">ქართული</option></select>
+    <select id="currency" aria-label="Currency"><option value="GEL">₾ GEL</option><option value="USD">$ USD</option></select>
   </div>
 </header>
 <main>
@@ -20,17 +20,33 @@
   <h1 data-i="title">Калькулятор уборки</h1>
   <p class="lead" data-i="lead">От площади до готового предложения — за пару минут.</p>
 
+  <section class="card" id="accountCard" aria-labelledby="accountTitle">
+    <h2 id="accountTitle" data-i="account">Аккаунт</h2>
+    <p id="connection" role="status" aria-live="polite"></p>
+    <button id="retry" class="secondary hidden" type="button" data-i="retry">Повторить</button>
+    <div id="signedIn" class="hidden"><p id="userInfo"></p><button id="logout" class="secondary" type="button" data-i="logout">Выйти</button></div>
+    <form id="authForm" class="hidden">
+      <label for="authMode" data-i="accountAction">Действие</label>
+      <select id="authMode"><option value="login" data-i="login">Войти</option><option value="register" data-i="register">Зарегистрироваться</option></select>
+      <div id="registerName" class="hidden"><label for="authName" data-i="name">Имя</label><input id="authName" autocomplete="name" maxlength="100"></div>
+      <label for="email">Email</label><input id="email" type="email" required autocomplete="username" maxlength="254">
+      <label for="password" data-i="password">Пароль</label><input id="password" type="password" required autocomplete="current-password" minlength="12" maxlength="128" aria-describedby="passwordHelp">
+      <p id="passwordHelp" class="note" data-i="passwordHelp">Минимум 12 символов.</p>
+      <p id="authError" class="error" role="alert"></p>
+      <button id="authSubmit" class="primary" type="submit" data-i="login">Войти</button>
+    </form>
+  </section>
   <nav>
     <button class="tab active" data-tab="calc" data-i="calc">Расчёт</button>
     <button class="tab" data-tab="history" data-i="history">История</button>
     <button class="tab" data-tab="rates" data-i="rates">Тарифы</button>
-  </nav>
+  <button id="adminTab" class="tab hidden" data-tab="admin" data-i="admin">Управление</button></nav>
 
   <section id="calc" class="panel active">
     <div class="card">
       <span class="num">01</span><h2 data-i="cleanType">Какая уборка нужна?</h2>
       <div id="types" class="choices"></div>
-      <label data-i="area">Площадь помещения</label>
+      <label for="area" data-i="area">Площадь помещения</label>
       <input id="area" type="range" min="20" max="300" step="5" value="60">
       <strong id="areaOut">60 м²</strong>
     </div>
@@ -43,28 +59,31 @@
     <div class="card total">
       <span class="muted" data-i="estimate">Предварительная стоимость</span>
       <div id="price">120 ₾</div>
+      <button id="printQuote" type="button" class="secondary" data-i="printQuote">Распечатать расчёт / PDF</button>
       <button id="book" class="primary" data-i="book">Оформить заказ</button>
     </div>
 
     <form id="orderForm" class="card hidden">
       <span class="num">03</span><h2 data-i="details">Детали заказа</h2>
-      <label data-i="name">Имя</label><input id="name" required>
-      <label data-i="phone">Телефон</label><input id="phone" type="tel" required>
-      <label data-i="address">Адрес</label><input id="address" required>
+      <label for="name" data-i="name">Имя</label><input id="name" required maxlength="100" autocomplete="name">
+      <label for="phone" data-i="phone">Телефон</label><input id="phone" type="tel" required minlength="5" maxlength="40" autocomplete="tel">
+      <label for="address" data-i="address">Адрес</label><input id="address" required minlength="3" maxlength="500" autocomplete="street-address">
       <div class="grid">
-        <div><label data-i="date">Дата</label><input id="date" type="date" required></div>
-        <div><label data-i="time">Время</label><input id="time" type="time" required></div>
+        <div><label for="date" data-i="date">Дата</label><input id="date" type="date" required></div>
+        <div><label for="time" data-i="time">Время</label><input id="time" type="time" required></div>
       </div>
-      <label data-i="comment">Комментарий</label><textarea id="comment" rows="3"></textarea>
+      <label for="comment" data-i="comment">Комментарий</label><textarea id="comment" rows="3" maxlength="2000"></textarea>
       <div class="summary" id="summary"></div>
-      <button class="primary" type="submit" data-i="confirm">Подтвердить заявку</button>
-      <p class="note" data-i="localNote">Демо v3: заявка сохраняется только на этом устройстве.</p>
+      <p id="orderError" class="error" role="alert"></p><button id="confirmOrder" class="primary" type="submit" data-i="confirm">Подтвердить заявку</button>
+      <p class="note" data-i="localNote">Заявка будет сохранена в вашем аккаунте.</p>
     </form>
   </section>
 
-  <section id="history" class="panel"><div class="card"><h2 data-i="historyTitle">Мои заявки</h2><div id="orders"></div></div></section>
+  <section id="history" class="panel"><div class="card"><h2 data-i="historyTitle">Мои заявки</h2><button id="refreshOrders" type="button" class="secondary" data-i="refresh">Обновить</button><div id="orders" aria-live="polite"></div><details id="legacySection" class="hidden"><summary data-i="legacy">Старые заявки на этом устройстве</summary><div id="legacyOrders"></div></details></div></section>
   <section id="rates" class="panel"><div class="card"><h2 data-i="ratesTitle">Тарифы</h2><div id="rateCards"></div></div></section>
+<section id="admin" class="panel"><div class="card"><h2 data-i="admin">Управление заявками</h2><button id="refreshAdmin" class="secondary" type="button" data-i="refresh">Обновить</button><button id="exportCSV" type="button" class="secondary" data-i="exportCSV">Экспорт заявок (CSV)</button><div id="adminOrders" aria-live="polite"></div></div></section>
 </main>
-<div id="toast"></div>
+<section id="printSheet"><h1>Clearly</h1><p id="printDetails"></p></section>
+<div id="toast" class="hidden" role="status" aria-live="polite"></div>
 <script src="app.js"></script>
 </body></html>
